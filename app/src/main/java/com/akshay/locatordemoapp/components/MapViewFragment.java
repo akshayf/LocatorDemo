@@ -8,11 +8,13 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,8 +63,8 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
     private View inflatedMapView;
     private RequestQueue mRequestQueue;
     private final String TAG = "MapViewFragment";
-    private double currentLat;
-    private double currentLng;
+    private double currentLat = -1;
+    private double currentLng = -1;
     private static GoogleApiClient client;
     private List<ListLocationBin> locationList;
 
@@ -91,6 +93,17 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
 
                 checkForGPSEnabled();
                 return false;
+            }
+        });
+
+        map.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+            @Override
+            public void onMyLocationChange(Location location) {
+
+                    double longitude = location.getLongitude();
+                    double latitude = location.getLatitude();
+
+                    callLocationService(latitude, longitude);
             }
         });
 
@@ -181,8 +194,8 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
 
-            LocationManager lm = (LocationManager) mapLocatorActivity.getSystemService(Context.LOCATION_SERVICE);
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            LocationManager locationManager = (LocationManager) mapLocatorActivity.getSystemService(Context.LOCATION_SERVICE);
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
             if(location != null) {
                 double longitude = location.getLongitude();
@@ -221,8 +234,7 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
 
             LatLng currentPos = new LatLng(currentLat, currentLng);
 
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPos, 12));
-            //map.animateCamera(CameraUpdateFactory.zoomIn());
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPos, 11));
             map.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
 
             map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -267,11 +279,13 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
                 .title(LocType)
                 .snippet(listLocationObj.getAddress()));
 
-        markerArray.put(markerPosition ,myMarker);
+        markerArray.put(markerPosition, myMarker);
     }
 
     //Function to call service and get the details
     public void callLocationService(double latitude, double longitude){
+
+        map.setOnMyLocationChangeListener(null);
 
         currentLat = latitude;
         currentLng = longitude;
