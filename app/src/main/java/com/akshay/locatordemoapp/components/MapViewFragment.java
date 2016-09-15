@@ -183,7 +183,7 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
                 });
             }
         }else{
-            Toast.makeText(mapLocatorActivity, getResources().getString(R.string.net_not_available), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mapLocatorActivity, getResources().getString(R.string.net_not_available), Toast.LENGTH_LONG).show();
         }
     }
 

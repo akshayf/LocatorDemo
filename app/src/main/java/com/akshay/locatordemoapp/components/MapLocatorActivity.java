@@ -41,7 +41,7 @@ public class MapLocatorActivity extends AppCompatActivity {
 
                     Toast.makeText(MapLocatorActivity.this, getResources().getString(R.string.need_map_permission), Toast.LENGTH_SHORT).show();
                 } else {
-                    callToGetPermission();
+                    GetThePermission();
                 }
             }else{
                 addMapFragment();
@@ -61,7 +61,7 @@ public class MapLocatorActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(MapLocatorActivity.this, getResources().getString(R.string.need_map_permission), Toast.LENGTH_LONG).show();
 
-                callToGetPermission();
+                GetThePermission();
             }
         }
     }
@@ -69,7 +69,7 @@ public class MapLocatorActivity extends AppCompatActivity {
     /**
      * Method to ask for permission
      * */
-    private void callToGetPermission(){
+    private void GetThePermission(){
 
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
