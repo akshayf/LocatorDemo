@@ -1,10 +1,11 @@
-package com.akshay.locatordemoapp;
+package com.akshay.locatordemoapp.utilities;
 
 import org.json.JSONArray;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ListLocationBin {
+public class ListLocationBin implements Serializable{
 
     private String state;
     private String locType;
