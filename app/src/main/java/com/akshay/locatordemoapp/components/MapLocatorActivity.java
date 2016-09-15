@@ -1,4 +1,4 @@
-package com.akshay.locatordemoapp;
+package com.akshay.locatordemoapp.components;
 
 import android.Manifest;
 import android.app.Activity;
@@ -6,32 +6,24 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.akshay.locatordemoapp.utilities.MapConstants;
+import com.akshay.locatordemoapp.R;
 
 public class MapLocatorActivity extends Activity {
 
     private final int MY_LOCATION_REQUEST_CODE = 100;
-    private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_locator);
 
-        fragmentManager = getFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         MapViewFragment mapFragment = new MapViewFragment();
         fragmentTransaction.add(R.id.map_fragment_container, mapFragment);
@@ -68,20 +60,24 @@ public class MapLocatorActivity extends Activity {
         }
     }
 
-    public void switchFragment(int fromFragment){
+    public void switchFragment(int fromFragment, Bundle bundle){
 
-        if(fromFragment == MapConstants.MapViewFragmentFlag){
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if(fromFragment == MapConstants.MAP_VIEW_FLAG){
 
             MarkerDetailFragment markerDetailFragment = new MarkerDetailFragment();
+            markerDetailFragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.map_fragment_container, markerDetailFragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+
         }else{
 
             MapViewFragment mapFragment = new MapViewFragment();
             fragmentTransaction.replace(R.id.map_fragment_container, mapFragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
         }
+
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

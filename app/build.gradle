@@ -25,4 +25,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.google.android.gms:play-services-maps:6.5.87'
     compile 'com.android.volley:volley:1.0.0'
+    compile 'com.google.android.gms:play-services-location:7.+'
 }

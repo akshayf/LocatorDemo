@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/top_bottom_margin"
+        android:layout_marginBottom="@dimen/top_bottom_margin"
+        android:layout_marginLeft="@dimen/right_left_margin"
+        android:layout_marginRight="@dimen/right_left_margin"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/detail_text_size"
+            android:text="@string/atms" />
+
+        <TextView
+            android:id="@+id/atms_text"
+            android:layout_width="wrap_content"
+            android:textDirection="rtl"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/detail_text_size" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/unselected" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/top_bottom_margin"
+        android:layout_marginBottom="@dimen/top_bottom_margin"
+        android:layout_marginLeft="@dimen/right_left_margin"
+        android:layout_marginRight="@dimen/right_left_margin"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/detail_text_size"
+            android:text="@string/lobby" />
+
+        <TextView
+            android:id="@+id/lobby_text"
+            android:layout_width="wrap_content"
+            android:textDirection="rtl"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/detail_text_size" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/unselected" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/top_bottom_margin"
+        android:layout_marginBottom="@dimen/top_bottom_margin"
+        android:layout_marginLeft="@dimen/right_left_margin"
+        android:layout_marginRight="@dimen/right_left_margin"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/detail_text_size"
+            android:text="@string/drive_up" />
+
+        <TextView
+            android:id="@+id/drive_up_text"
+            android:layout_width="wrap_content"
+            android:textDirection="rtl"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/detail_text_size" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/top_bottom_margin"
+        android:layout_marginBottom="@dimen/top_bottom_margin"
+        android:layout_marginLeft="@dimen/right_left_margin"
+        android:layout_marginRight="@dimen/right_left_margin"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/detail_text_size"
+            android:text="@string/type" />
+
+        <TextView
+            android:id="@+id/type_text"
+            android:layout_width="wrap_content"
+            android:textDirection="rtl"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/detail_text_size" />
+
+    </RelativeLayout>
+
+</LinearLayout>

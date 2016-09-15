@@ -21,25 +21,23 @@
         <Button
             android:id="@+id/all_locations_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:background="@drawable/button_selector"
+            android:layout_height="wrap_content"
             android:text="@string/all_locations" />
 
         <Button
             android:id="@+id/atm_locations_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:background="@drawable/button_selector"
+            android:layout_height="wrap_content"
             android:text="@string/atm_locations" />
 
         <Button
-            android:id="@+id/financial_location_button"
+            android:id="@+id/branches_location_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:background="@drawable/button_selector"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:text="@string/financial_locations" />
+            android:layout_height="wrap_content"
+            android:text="@string/branches" />
 
     </LinearLayout>
 </RelativeLayout>

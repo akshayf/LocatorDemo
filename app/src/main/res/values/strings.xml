@@ -1,9 +1,21 @@
 <resources>
     <string name="app_name">LocatorDemoApp</string>
-    <string name="title_activity_map_locator">Map</string>
+    <string name="title_activity_map_locator">LocatorDemo</string>
     <string name="need_map_permission">This app needs permission to show the map</string>
     <string name="cant_access_map">You can not access map as you denied the permission</string>
+    <string name="net_not_available">Internet not available</string>
     <string name="all_locations">All</string>
     <string name="atm_locations">ATMs</string>
-    <string name="financial_locations">Financial Centers</string>
+    <string name="branches">Branches</string>
+    <string name="address">Address</string>
+    <string name="phone">Phone</string>
+    <string name="distance">Distance</string>
+    <string name="atms">ATMs</string>
+    <string name="lobby">Lobby</string>
+    <string name="drive_up">Drive-up Hours</string>
+    <string name="type">Type</string>
+    <string name="direction">Show Direction</string>
+    <string name="access">Access</string>
+    <string name="languages">Languages</string>
+    <string name="services">Services</string>
 </resources>
