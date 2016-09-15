@@ -5,17 +5,15 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
-import com.akshay.locatordemoapp.utilities.MapConstants;
 import com.akshay.locatordemoapp.R;
+import com.akshay.locatordemoapp.utilities.MapConstants;
 
 public class MapLocatorActivity extends Activity {
-
-    private final int MY_LOCATION_REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +40,14 @@ public class MapLocatorActivity extends Activity {
 
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_LOCATION_REQUEST_CODE);
+                        MapConstants.MY_LOCATION_REQUEST_CODE);
             }
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == MY_LOCATION_REQUEST_CODE) {
+        if (requestCode == MapConstants.MY_LOCATION_REQUEST_CODE) {
             if (permissions.length == 1 &&
                     permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {

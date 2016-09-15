@@ -13,16 +13,15 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.akshay.locatordemoapp.R;
 import com.akshay.locatordemoapp.utilities.ListLocationBin;
 import com.akshay.locatordemoapp.utilities.MapConstants;
-import com.akshay.locatordemoapp.R;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -32,6 +31,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -45,7 +45,6 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.common.api.ResultCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -199,9 +198,7 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
 
     public void setMapMarkers(String markerType){
 
-        Log.d(TAG, "setMapMarkers ...");
-
-        //clear markers on map
+        //clear markers on the map
         map.clear();
 
         final SparseArray<Marker> markerArray = new SparseArray<>();
@@ -234,8 +231,6 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
 
                 for(int i = 0; i < markerArray.size(); i++) {
 
-                    Log.d(TAG, "i " + i);
-
                     int key = markerArray.keyAt(i);
                     Marker myMarker = markerArray.get(key);
 
@@ -244,8 +239,7 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
                         ListLocationBin listLocationObj = locationList.get(key);
 
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable(MapConstants.MAP_DETAIL_BUNDLE, listLocationObj);
-
+                        bundle.putParcelable(MapConstants.MAP_DETAIL_BUNDLE, listLocationObj);
                         ((MapLocatorActivity) getActivity()).switchFragment(MapConstants.MAP_VIEW_FLAG, bundle);
 
                         break;
@@ -279,12 +273,8 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
         currentLat = latitude;
         currentLng = longitude;
 
-        Log.d(TAG, "callLocationService... latitude "+latitude+"  longitude "+longitude);
-
         mRequestQueue = Volley.newRequestQueue(mapLocatorActivity);
         String url = "https://m.chase.com/PSRWeb/location/list.action?lat="+latitude+"&lng="+longitude;
-
-        Log.d(TAG, "url "+url);
 
         JsonObjectRequest jsObjRequest;
 
@@ -332,16 +322,16 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
                     listLocationBin.setLat(jObj.getString("lat"));
                     listLocationBin.setLng(jObj.getString("lng"));
                     listLocationBin.setBank(jObj.getString("bank"));
-                    listLocationBin.setServices(jObj.getJSONArray("services"));
+                    listLocationBin.setServices(jObj.getString("services"));
                     listLocationBin.setDistance(jObj.getString("distance"));
 
                     if(listLocationBin.getLocType().equalsIgnoreCase("atm")) {
                         listLocationBin.setAccess(jObj.getString("access"));
-                        listLocationBin.setLanguages(jObj.getJSONArray("languages"));
+                        listLocationBin.setLanguages(jObj.getString("languages"));
                     }else{
                         listLocationBin.setType(jObj.getString("type"));
-                        listLocationBin.setLobbyHrs(jObj.getJSONArray("lobbyHrs"));
-                        listLocationBin.setDriveUpHrs(jObj.getJSONArray("driveUpHrs"));
+                        listLocationBin.setLobbyHrs(jObj.getString("lobbyHrs"));
+                        listLocationBin.setDriveUpHrs(jObj.getString("driveUpHrs"));
                         listLocationBin.setAtms(jObj.getString("atms"));
                         listLocationBin.setPhone(jObj.getString("phone"));
                     }
@@ -350,7 +340,6 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
                 }
 
                 inflatedMapView.findViewById(R.id.all_locations_button).performClick();
-                //setMapMarkers(MapConstants.ALL_MARKERS);
             }
         }catch (JSONException e){
             e.printStackTrace();

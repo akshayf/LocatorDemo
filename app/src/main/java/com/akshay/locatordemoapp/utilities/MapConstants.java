@@ -11,4 +11,5 @@ public class MapConstants {
     public static final String ALL_MARKERS = "all_markers";
     public static final String ATM_MARKERS = "atm_markers";
     public static final String BRANCH_MARKERS = "branch_markers";
+    public static final int MY_LOCATION_REQUEST_CODE = 100;
 }

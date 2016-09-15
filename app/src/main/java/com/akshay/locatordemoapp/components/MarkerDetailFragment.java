@@ -5,20 +5,16 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
 import com.akshay.locatordemoapp.R;
 import com.akshay.locatordemoapp.utilities.ListLocationBin;
 import com.akshay.locatordemoapp.utilities.MapConstants;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.util.StringTokenizer;
 
 public class MarkerDetailFragment extends Fragment {
@@ -44,7 +40,7 @@ public class MarkerDetailFragment extends Fragment {
 
         Bundle bundle = getArguments();
 
-        final ListLocationBin listLocationObj = (ListLocationBin)bundle.getSerializable(MapConstants.MAP_DETAIL_BUNDLE);
+        final ListLocationBin listLocationObj = bundle.getParcelable(MapConstants.MAP_DETAIL_BUNDLE);
 
         String locType = listLocationObj.getLocType();
         FrameLayout detailContainerLayout = (FrameLayout)inflatedMarkerView.findViewById(R.id.details_container);
@@ -85,14 +81,14 @@ public class MarkerDetailFragment extends Fragment {
 
                 ((TextView) childView.findViewById(R.id.access_text)).setText(listLocationObj.getAccess());
 
-                JSONArray languageArray = listLocationObj.getLanguages();
+                JSONArray languageArray = new JSONArray(listLocationObj.getLanguages());
                 String language = "";
                 for (int i = 0; i < languageArray.length(); i++) {
                     language = language+"\n"+languageArray.getString(i);
                 }
                 ((TextView) childView.findViewById(R.id.languages_text)).setText(language);
 
-                JSONArray serviceArray = listLocationObj.getServices();
+                JSONArray serviceArray = new JSONArray(listLocationObj.getServices());
                 String service = "";
                 for (int i = 0; i < serviceArray.length(); i++) {
                     service = service+"\n"+serviceArray.getString(i);
@@ -104,14 +100,14 @@ public class MarkerDetailFragment extends Fragment {
 
                 ((TextView) childView.findViewById(R.id.atms_text)).setText(listLocationObj.getAtms());
 
-                JSONArray lobbyHrsArray = listLocationObj.getLobbyHrs();
+                JSONArray lobbyHrsArray = new JSONArray(listLocationObj.getLobbyHrs());
                 String lobbyHr = "";
                 for (int i = 0; i < lobbyHrsArray.length(); i++) {
                     lobbyHr = lobbyHr+"\n"+lobbyHrsArray.getString(i);
                 }
                 ((TextView) childView.findViewById(R.id.lobby_text)).setText(lobbyHr);
 
-                JSONArray driveUpArray = listLocationObj.getDriveUpHrs();
+                JSONArray driveUpArray = new JSONArray(listLocationObj.getDriveUpHrs());
                 String driveUp = "";
                 for (int i = 0; i < driveUpArray.length(); i++) {
                     driveUp = driveUp+"\n"+driveUpArray.getString(i);
@@ -120,8 +116,6 @@ public class MarkerDetailFragment extends Fragment {
 
                 ((TextView) childView.findViewById(R.id.type_text)).setText(listLocationObj.getType());
             }
-
-            Log.d(TAG, "detailContainerLayout "+detailContainerLayout);
 
             detailContainerLayout.addView(childView);
 
@@ -139,7 +133,7 @@ public class MarkerDetailFragment extends Fragment {
                 String lat = listLocationObj.getLat();
                 String lng = listLocationObj.getLng();
 
-                Uri gmmIntentUri = Uri.parse("geo:" + lat+","+lng);
+                Uri gmmIntentUri = Uri.parse("geo:"+lat+","+lng);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 if (mapIntent.resolveActivity(mapLocatorActivity.getPackageManager()) != null) {

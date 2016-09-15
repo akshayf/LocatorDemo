@@ -1,11 +1,9 @@
 package com.akshay.locatordemoapp.utilities;
 
-import org.json.JSONArray;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import java.io.Serializable;
-import java.util.List;
-
-public class ListLocationBin implements Serializable{
+public class ListLocationBin implements Parcelable {
 
     private String state;
     private String locType;
@@ -18,15 +16,15 @@ public class ListLocationBin implements Serializable{
     private String lng;
     private String bank;
     private String type;
-    private JSONArray lobbyHrs;
-    private JSONArray driveUpHrs;
+    private String lobbyHrs;
+    private String driveUpHrs;
     private String atms;
-    private JSONArray services;
+    private String services;
     private String phone;
     private String distance;
 
     private String access;
-    private JSONArray languages;
+    private String languages;
 
     public ListLocationBin() {
     }
@@ -119,19 +117,19 @@ public class ListLocationBin implements Serializable{
         this.type = type;
     }
 
-    public JSONArray getLobbyHrs() {
+    public String getLobbyHrs() {
         return lobbyHrs;
     }
 
-    public void setLobbyHrs(JSONArray lobbyHrs) {
+    public void setLobbyHrs(String lobbyHrs) {
         this.lobbyHrs = lobbyHrs;
     }
 
-    public JSONArray getDriveUpHrs() {
+    public String getDriveUpHrs() {
         return driveUpHrs;
     }
 
-    public void setDriveUpHrs(JSONArray driveUpHrs) {
+    public void setDriveUpHrs(String driveUpHrs) {
         this.driveUpHrs = driveUpHrs;
     }
 
@@ -143,11 +141,11 @@ public class ListLocationBin implements Serializable{
         this.atms = atms;
     }
 
-    public JSONArray getServices() {
+    public String getServices() {
         return services;
     }
 
-    public void setServices(JSONArray services) {
+    public void setServices(String services) {
         this.services = services;
     }
 
@@ -175,11 +173,57 @@ public class ListLocationBin implements Serializable{
         this.access = access;
     }
 
-    public JSONArray getLanguages() {
+    public String getLanguages() {
         return languages;
     }
 
-    public void setLanguages(JSONArray languages) {
+    public void setLanguages(String languages) {
         this.languages = languages;
+    }
+
+    @Override
+    public int describeContents(){
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringArray(new String[] {this.state, this.locType, this.label, this.address, this.city, this.zip,
+                this.name, this.lat, this.lng, this.bank, this.type, this.lobbyHrs, this.driveUpHrs, this.atms, this.services,
+                this.phone, this.distance, this.access, this.languages});
+    }
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public ListLocationBin createFromParcel(Parcel in) {
+            return new ListLocationBin(in);
+        }
+
+        public ListLocationBin[] newArray(int size) {
+            return new ListLocationBin[size];
+        }
+    };
+
+    public ListLocationBin(Parcel in){
+        String[] data = new String[19];
+
+        in.readStringArray(data);
+        this.state = data[0];
+        this.locType = data[1];
+        this.label = data[2];
+        this.address = data[3];
+        this.city = data[4];
+        this.zip = data[5];
+        this.name = data[6];
+        this.lat = data[7];
+        this.lng = data[8];
+        this.bank = data[9];
+        this.type = data[10];
+        this.lobbyHrs = data[11];
+        this.driveUpHrs = data[12];
+        this.atms = data[13];
+        this.services = data[14];
+        this.phone = data[15];
+        this.distance = data[16];
+        this.access = data[17];
+        this.languages = data[18];
     }
 }
