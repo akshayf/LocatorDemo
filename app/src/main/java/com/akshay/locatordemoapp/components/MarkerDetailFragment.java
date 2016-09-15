@@ -36,6 +36,7 @@ public class MarkerDetailFragment extends Fragment {
         return inflatedMarkerView;
     }
 
+    //Function to set marker details
     private void setMarkerDetails(){
 
         Bundle bundle = getArguments();

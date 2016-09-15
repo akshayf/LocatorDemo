@@ -25,6 +25,7 @@
 
         <activity
             android:name=".components.MapLocatorActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_map_locator" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

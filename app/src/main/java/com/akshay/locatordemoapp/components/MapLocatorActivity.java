@@ -8,12 +8,13 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.akshay.locatordemoapp.R;
 import com.akshay.locatordemoapp.utilities.MapConstants;
 
-public class MapLocatorActivity extends Activity {
+public class MapLocatorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class MapLocatorActivity extends Activity {
         }
     }
 
+    //Function to replace current fragment with new fragment
     public void switchFragment(int fromFragment, Bundle bundle){
 
         FragmentManager fragmentManager = getFragmentManager();

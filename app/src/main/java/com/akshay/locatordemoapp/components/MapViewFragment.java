@@ -103,6 +103,7 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
         return inflatedMapView;
     }
 
+    //Function to check for GPS enable otherwise ask for ennoblement
     private void checkForGPSEnabled(){
 
         if(checkForInternetConnection()) {
@@ -135,28 +136,23 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
 
                         switch (status.getStatusCode()) {
                             case LocationSettingsStatusCodes.SUCCESS:
-                                // All location settings are satisfied. The client can initialize location
-                                // requests here.
 
                                 getLatLong();
 
                                 break;
                             case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                                // Location settings are not satisfied. But could be fixed by showing the user
-                                // a optionsDialog.
+
                                 try {
-                                    // Show the optionsDialog by calling startResolutionForResult(),
-                                    // and check the result in onActivityResult().
+
                                     if (status.hasResolution()) {
                                         status.startResolutionForResult(getActivity(), 1000);
                                     }
                                 } catch (IntentSender.SendIntentException e) {
-                                    // Ignore the error.
+
                                 }
                                 break;
                             case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                                // Location settings are not satisfied. However, we have no way to fix the
-                                // settings so we won't show the optionsDialog.
+
                                 break;
                         }
                     }
@@ -178,6 +174,7 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
         }
     }
 
+    //Function to get current lat, long
     public void getLatLong(){
 
         if (ContextCompat.checkSelfPermission(mapLocatorActivity,
@@ -196,59 +193,64 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
         }
     }
 
+    //Set the map markers by markerType
     public void setMapMarkers(String markerType){
 
         //clear markers on the map
         map.clear();
 
-        final SparseArray<Marker> markerArray = new SparseArray<>();
+        if(locationList != null) {
 
-        for(int i=0; i<locationList.size(); i++){
+            final SparseArray<Marker> markerArray = new SparseArray<>();
 
-            ListLocationBin listLocationObj = locationList.get(i);
+            for (int i = 0; i < locationList.size(); i++) {
 
-            if(markerType.equalsIgnoreCase(MapConstants.ALL_MARKERS)){
+                ListLocationBin listLocationObj = locationList.get(i);
 
-                addMarker(markerArray, listLocationObj, i);
-            }else if(markerType.equalsIgnoreCase(MapConstants.ATM_MARKERS) && listLocationObj.getLocType().equalsIgnoreCase("atm")){
+                if (markerType.equalsIgnoreCase(MapConstants.ALL_MARKERS)) {
 
-                addMarker(markerArray, listLocationObj, i);
-            }else if(markerType.equalsIgnoreCase(MapConstants.BRANCH_MARKERS) && listLocationObj.getLocType().equalsIgnoreCase("branch")){
+                    addMarker(markerArray, listLocationObj, i);
+                } else if (markerType.equalsIgnoreCase(MapConstants.ATM_MARKERS) && listLocationObj.getLocType().equalsIgnoreCase("atm")) {
 
-                addMarker(markerArray, listLocationObj, i);
-            }
-        }
+                    addMarker(markerArray, listLocationObj, i);
+                } else if (markerType.equalsIgnoreCase(MapConstants.BRANCH_MARKERS) && listLocationObj.getLocType().equalsIgnoreCase("branch")) {
 
-        LatLng currentPos = new LatLng(currentLat,currentLng);
-
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPos, 12));
-        //map.animateCamera(CameraUpdateFactory.zoomIn());
-        map.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
-
-        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-
-                for(int i = 0; i < markerArray.size(); i++) {
-
-                    int key = markerArray.keyAt(i);
-                    Marker myMarker = markerArray.get(key);
-
-                    if(marker.equals(myMarker)){
-
-                        ListLocationBin listLocationObj = locationList.get(key);
-
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable(MapConstants.MAP_DETAIL_BUNDLE, listLocationObj);
-                        ((MapLocatorActivity) getActivity()).switchFragment(MapConstants.MAP_VIEW_FLAG, bundle);
-
-                        break;
-                    }
+                    addMarker(markerArray, listLocationObj, i);
                 }
             }
-        });
+
+            LatLng currentPos = new LatLng(currentLat, currentLng);
+
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPos, 12));
+            //map.animateCamera(CameraUpdateFactory.zoomIn());
+            map.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
+
+            map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+
+                    for (int i = 0; i < markerArray.size(); i++) {
+
+                        int key = markerArray.keyAt(i);
+                        Marker myMarker = markerArray.get(key);
+
+                        if (marker.equals(myMarker)) {
+
+                            ListLocationBin listLocationObj = locationList.get(key);
+
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable(MapConstants.MAP_DETAIL_BUNDLE, listLocationObj);
+                            ((MapLocatorActivity) getActivity()).switchFragment(MapConstants.MAP_VIEW_FLAG, bundle);
+
+                            break;
+                        }
+                    }
+                }
+            });
+        }
     }
 
+    //Add multiple markers on the map
     public void addMarker(SparseArray<Marker> markerArray, ListLocationBin listLocationObj, int markerPosition){
 
         String LocType;
@@ -268,6 +270,7 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
         markerArray.put(markerPosition ,myMarker);
     }
 
+    //Function to call service and get the details
     public void callLocationService(double latitude, double longitude){
 
         currentLat = latitude;
@@ -297,6 +300,7 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
         mRequestQueue.add(jsObjRequest);
     }
 
+    //Function to parse the json object
     public void parseMapJson(JSONObject responseObj){
 
         try {
@@ -415,28 +419,30 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
 
     @Override
     public void onResume() {
-        mapView.onResume();
         super.onResume();
+        if(mapView != null)
+            mapView.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mapView.onPause();
+        if(mapView != null)
+            mapView.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mapView.onDestroy();
-
-        locationList = null;
+        if(mapView != null)
+            mapView.onDestroy();
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        mapView.onLowMemory();
+        if(mapView != null)
+            mapView.onLowMemory();
     }
 
 }
