@@ -16,7 +16,13 @@ import com.akshay.locatordemoapp.utilities.MapConstants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import java.util.StringTokenizer;
-
+/**
+ * <h1>MarkerDetailFragment</h1>
+ * This Fragment use to set details about the Marker.
+ * Sets specific details for ATMs and Branches
+ *
+ * @author  Akshay Faye
+ */
 public class MarkerDetailFragment extends Fragment {
 
     private Activity mapLocatorActivity;
@@ -36,7 +42,10 @@ public class MarkerDetailFragment extends Fragment {
         return inflatedMarkerView;
     }
 
-    //Function to set marker details
+    /**
+     * This method is used to set Marker Details
+     * It set details according to their category
+     */
     private void setMarkerDetails(){
 
         Bundle bundle = getArguments();
@@ -44,8 +53,6 @@ public class MarkerDetailFragment extends Fragment {
         final ListLocationBin listLocationObj = bundle.getParcelable(MapConstants.MAP_DETAIL_BUNDLE);
 
         String locType = listLocationObj.getLocType();
-        FrameLayout detailContainerLayout = (FrameLayout)inflatedMarkerView.findViewById(R.id.details_container);
-        View childView;
 
         ((TextView)inflatedMarkerView.findViewById(R.id.branch_name_view)).setText(listLocationObj.getName());
 
@@ -74,57 +81,10 @@ public class MarkerDetailFragment extends Fragment {
         }
         ((TextView)inflatedMarkerView.findViewById(R.id.distance_text)).setText(distance);
 
-        try {
-
-            if (locType.equalsIgnoreCase("atm")) {
-
-                childView = mapLocatorActivity.getLayoutInflater().inflate(R.layout.atm_details, null);
-
-                ((TextView) childView.findViewById(R.id.access_text)).setText(listLocationObj.getAccess());
-
-                JSONArray languageArray = new JSONArray(listLocationObj.getLanguages());
-                String language = "";
-                for (int i = 0; i < languageArray.length(); i++) {
-                    language = language+"\n"+languageArray.getString(i);
-                }
-                ((TextView) childView.findViewById(R.id.languages_text)).setText(language);
-
-                JSONArray serviceArray = new JSONArray(listLocationObj.getServices());
-                String service = "";
-                for (int i = 0; i < serviceArray.length(); i++) {
-                    service = service+"\n"+serviceArray.getString(i);
-                }
-                ((TextView) childView.findViewById(R.id.services_text)).setText(service);
-
-            } else {
-                childView = mapLocatorActivity.getLayoutInflater().inflate(R.layout.branch_details, null);
-
-                ((TextView) childView.findViewById(R.id.atms_text)).setText(listLocationObj.getAtms());
-
-                JSONArray lobbyHrsArray = new JSONArray(listLocationObj.getLobbyHrs());
-                String lobbyHr = "";
-                for (int i = 0; i < lobbyHrsArray.length(); i++) {
-                    lobbyHr = lobbyHr+"\n"+lobbyHrsArray.getString(i);
-                }
-                ((TextView) childView.findViewById(R.id.lobby_text)).setText(lobbyHr);
-
-                JSONArray driveUpArray = new JSONArray(listLocationObj.getDriveUpHrs());
-                String driveUp = "";
-                for (int i = 0; i < driveUpArray.length(); i++) {
-                    driveUp = driveUp+"\n"+driveUpArray.getString(i);
-                }
-                ((TextView) childView.findViewById(R.id.drive_up_text)).setText(driveUp);
-
-                ((TextView) childView.findViewById(R.id.type_text)).setText(listLocationObj.getType());
-            }
-
-            detailContainerLayout.addView(childView);
-
-        }catch (JSONException e){
-            e.printStackTrace();
-
-        }catch (Exception e){
-            e.printStackTrace();
+        if (locType.equalsIgnoreCase("atm")) {
+            setAtmDetails(listLocationObj);
+        } else {
+            setBranchDetails(listLocationObj);
         }
 
         inflatedMarkerView.findViewById(R.id.direction_button).setOnClickListener(new View.OnClickListener() {
@@ -142,5 +102,77 @@ public class MarkerDetailFragment extends Fragment {
                 }
             }
         });
+    }
+
+    /**
+     * This method is used to set Atm details
+     * @param listLocationObj The object of ListLocationBin class
+     */
+    public void setAtmDetails(ListLocationBin listLocationObj){
+
+        try {
+
+            FrameLayout detailContainerLayout = (FrameLayout)inflatedMarkerView.findViewById(R.id.details_container);
+
+            View childView = mapLocatorActivity.getLayoutInflater().inflate(R.layout.atm_details, null);
+
+            ((TextView) childView.findViewById(R.id.access_text)).setText(listLocationObj.getAccess());
+
+            JSONArray languageArray = new JSONArray(listLocationObj.getLanguages());
+            String language = "";
+            for (int i = 0; i < languageArray.length(); i++) {
+                language = language + "\n" + languageArray.getString(i);
+            }
+            ((TextView) childView.findViewById(R.id.languages_text)).setText(language);
+
+            JSONArray serviceArray = new JSONArray(listLocationObj.getServices());
+            String service = "";
+            for (int i = 0; i < serviceArray.length(); i++) {
+                service = service + "\n" + serviceArray.getString(i);
+            }
+            ((TextView) childView.findViewById(R.id.services_text)).setText(service);
+
+            detailContainerLayout.addView(childView);
+        }catch (JSONException e){
+            e.printStackTrace();
+
+        }
+    }
+
+    /**
+     * This method is used to set Branch details
+     * @param listLocationObj The object of ListLocationBin class
+     */
+    public void setBranchDetails(ListLocationBin listLocationObj){
+
+        try {
+
+            FrameLayout detailContainerLayout = (FrameLayout)inflatedMarkerView.findViewById(R.id.details_container);
+
+            View childView = mapLocatorActivity.getLayoutInflater().inflate(R.layout.branch_details, null);
+
+            ((TextView) childView.findViewById(R.id.atms_text)).setText(listLocationObj.getAtms());
+
+            JSONArray lobbyHrsArray = new JSONArray(listLocationObj.getLobbyHrs());
+            String lobbyHr = "";
+            for (int i = 0; i < lobbyHrsArray.length(); i++) {
+                lobbyHr = lobbyHr + "\n" + lobbyHrsArray.getString(i);
+            }
+            ((TextView) childView.findViewById(R.id.lobby_text)).setText(lobbyHr);
+
+            JSONArray driveUpArray = new JSONArray(listLocationObj.getDriveUpHrs());
+            String driveUp = "";
+            for (int i = 0; i < driveUpArray.length(); i++) {
+                driveUp = driveUp + "\n" + driveUpArray.getString(i);
+            }
+            ((TextView) childView.findViewById(R.id.drive_up_text)).setText(driveUp);
+
+            ((TextView) childView.findViewById(R.id.type_text)).setText(listLocationObj.getType());
+
+            detailContainerLayout.addView(childView);
+        }catch (JSONException e){
+            e.printStackTrace();
+
+        }
     }
 }

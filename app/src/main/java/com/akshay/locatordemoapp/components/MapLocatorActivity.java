@@ -15,6 +15,13 @@ import android.widget.Toast;
 import com.akshay.locatordemoapp.R;
 import com.akshay.locatordemoapp.utilities.MapConstants;
 
+/**
+ * <h1>MapLocatorActivity</h1>
+ * The Activity use to check permission availability
+ * and do the switching of fragments
+ *
+ * @author  Akshay Faye
+ */
 public class MapLocatorActivity extends AppCompatActivity {
 
     @Override
@@ -22,14 +29,7 @@ public class MapLocatorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_locator);
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        MapViewFragment mapFragment = new MapViewFragment();
-        fragmentTransaction.add(R.id.map_fragment_container, mapFragment);
-        fragmentTransaction.commit();
-
-        //Check for permission
+        //Check for permission above API level 23
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             if (ContextCompat.checkSelfPermission(this,
@@ -41,28 +41,59 @@ public class MapLocatorActivity extends AppCompatActivity {
 
                     Toast.makeText(MapLocatorActivity.this, getResources().getString(R.string.need_map_permission), Toast.LENGTH_SHORT).show();
                 } else {
-
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            MapConstants.MY_LOCATION_REQUEST_CODE);
+                    callToGetPermission();
                 }
+            }else{
+                addMapFragment();
             }
+        }else{
+            addMapFragment();
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == MapConstants.MY_LOCATION_REQUEST_CODE) {
-            if (permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+                addMapFragment();
             } else {
-                //Toast.makeText(MapLocatorActivity.this, getResources().getString(R.string.cant_access_map), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapLocatorActivity.this, getResources().getString(R.string.need_map_permission), Toast.LENGTH_LONG).show();
+
+                callToGetPermission();
             }
         }
     }
 
-    //Function to replace current fragment with new fragment
+    /**
+     * Method to ask for permission
+     * */
+    private void callToGetPermission(){
+
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                MapConstants.MY_LOCATION_REQUEST_CODE);
+    }
+
+    /**
+     * Method to add mapFragment in fragment container
+     * */
+    public void addMapFragment(){
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        MapViewFragment mapFragment = new MapViewFragment();
+        fragmentTransaction.add(R.id.map_fragment_container, mapFragment);
+        fragmentTransaction.commit();
+    }
+
+    /**
+     * This is the method to replace current fragment with new fragment.
+     * @param fromFragment Current Fragment.
+     * @param bundle Bundle contain Parcelable object.
+     */
     public void switchFragment(int fromFragment, Bundle bundle){
 
         FragmentManager fragmentManager = getFragmentManager();
