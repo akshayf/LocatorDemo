@@ -252,7 +252,7 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
 
             LatLng currentPos = new LatLng(currentLat, currentLng);
 
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPos, 11));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPos, 13));
             map.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
 
             map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {

@@ -71,6 +71,8 @@ public class MarkerDetailFragment extends Fragment {
             j++;
         }
 
+        address = address+"\n"+listLocationObj.getZip();
+
         ((TextView) inflatedMarkerView.findViewById(R.id.address_text)).setText(address);
 
         String distance = listLocationObj.getDistance();

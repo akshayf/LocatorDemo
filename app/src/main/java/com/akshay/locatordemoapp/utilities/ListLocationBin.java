@@ -29,6 +29,31 @@ public class ListLocationBin implements Parcelable {
     public ListLocationBin() {
     }
 
+    public ListLocationBin(String state, String locType, String label, String address, String city, String zip,
+                           String name, String lat, String lng, String bank, String type, String lobbyHrs,
+                           String driveUpHrs, String atms, String services, String phone, String distance,
+                           String access, String languages) {
+        this.state = state;
+        this.locType = locType;
+        this.label = label;
+        this.address = address;
+        this.city = city;
+        this.zip = zip;
+        this.name = name;
+        this.lat = lat;
+        this.lng = lng;
+        this.bank = bank;
+        this.type = type;
+        this.lobbyHrs = lobbyHrs;
+        this.driveUpHrs = driveUpHrs;
+        this.atms = atms;
+        this.services = services;
+        this.phone = phone;
+        this.distance = distance;
+        this.access = access;
+        this.languages = languages;
+    }
+
     public String getState() {
         return state;
     }
