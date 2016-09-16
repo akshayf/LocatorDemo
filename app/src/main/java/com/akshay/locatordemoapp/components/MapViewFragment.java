@@ -59,9 +59,8 @@ import java.util.List;
 
 /**
  * <h1>MapViewFragment</h1>
- * This Fragment use to get all location from
- * the service call and set them on the map
- * with the help of markers
+ * This Fragment use to get all near by location from the
+ * service call and set them on the map with the help of markers.
  *
  * @author  Akshay Faye
  */
@@ -101,8 +100,7 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
         map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
-
-                setGPSEnable();
+                makeGPSEnable();
                 return false;
             }
         });
@@ -110,16 +108,14 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
         map.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
             @Override
             public void onMyLocationChange(Location location) {
-
                 double longitude = location.getLongitude();
                 double latitude = location.getLatitude();
-
                 callLocationService(latitude, longitude);
-
             }
         });
 
-        setGPSEnable();
+        //Call to make GPS enable and get the lat lng
+        makeGPSEnable();
 
         inflatedMapView.findViewById(R.id.all_locations_button).setOnClickListener(this);
         inflatedMapView.findViewById(R.id.atm_locations_button).setOnClickListener(this);
@@ -130,9 +126,10 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
 
     /**
      * This method is used to check GPS service is enable or not
-     * If not it will display the dialog to enable the GPS
+     * If not it will display the dialog to enable the GPS.
+     * It calls calculateLatLong() if it get GPS enable.
      */
-    private void setGPSEnable(){
+    private void makeGPSEnable(){
 
         if(checkForInternetConnection()) {
 
@@ -200,7 +197,7 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
 
     /**
      * This method is used to get lat long from last known location
-     * and pass it to service call
+     * and pass it to service call.
      */
     public void calculateLatLong(){
 
@@ -222,12 +219,13 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
 
     /**
      * This method is used set markers by their types
-     * and set the clicks for info window
+     * and set the clicks for info window. On click of info
+     * window it launches the new detail fragment.
      * @param markerType Type of marker(All, Atm, Branch)
      */
     public void setMapMarkers(String markerType){
 
-        //clear markers on the map
+        //clear markers from the map
         map.clear();
 
         if(locationList != null) {
@@ -281,7 +279,7 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
     }
 
     /**
-     * Method to add multiple markers on the map
+     * Method to add multiple markers on the map.
      * @param markerArray SparseArray of markers to maintain their positions
      * @param listLocationObj  Object of ListLocationBin
      * @param markerPosition  Current marker position
@@ -306,8 +304,9 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
     }
 
     /**
-     * This method is used to call location service
-     * Provides response in Json format with all the location details
+     * This method is used to call location service.
+     * Provides response in Json format with all the location details.
+     * On success it calls parseMapJson() for parsing of json
      * @param latitude latitude for current location
      * @param longitude  longitude for current location
      */
@@ -320,6 +319,8 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
 
         mRequestQueue = Volley.newRequestQueue(mapLocatorActivity);
         String url = "https://m.chase.com/PSRWeb/location/list.action?lat="+latitude+"&lng="+longitude;
+
+        Log.e(TAG, "url "+url);
 
         JsonObjectRequest jsObjRequest;
 
@@ -343,7 +344,7 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
     }
 
     /**
-     * This method is used to parse JSON object
+     * This method is used to parse JSON object.
      * Object contains near by locations for Atms
      * and branches with their details
      * @param responseObj JsonObject got from service call
@@ -398,19 +399,13 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
+    public void onConnectionFailed(ConnectionResult connectionResult) {}
 
     @Override
-    public void onConnected(Bundle bundle) {
-
-    }
+    public void onConnected(Bundle bundle) {}
 
     @Override
-    public void onConnectionSuspended(int i) {
-
-    }
+    public void onConnectionSuspended(int i) {}
 
     @Override
     public void onClick(View v) {
@@ -419,6 +414,7 @@ public class MapViewFragment extends Fragment implements View.OnClickListener, G
 
         if(id == R.id.all_locations_button){
 
+            //Selects particular button on button click
             inflatedMapView.findViewById(R.id.all_locations_button).setSelected(true);
             inflatedMapView.findViewById(R.id.atm_locations_button).setSelected(false);
             inflatedMapView.findViewById(R.id.branches_location_button).setSelected(false);

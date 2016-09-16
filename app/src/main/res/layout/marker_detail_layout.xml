@@ -15,7 +15,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="22dp"
             android:layout_marginTop="22dp"
-            android:textSize="@dimen/detail_text_size"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <View

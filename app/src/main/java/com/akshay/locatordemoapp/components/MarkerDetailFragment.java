@@ -71,7 +71,7 @@ public class MarkerDetailFragment extends Fragment {
             j++;
         }
 
-        address = address+"\n"+listLocationObj.getZip();
+        address = address+listLocationObj.getZip();
 
         ((TextView) inflatedMarkerView.findViewById(R.id.address_text)).setText(address);
 
@@ -96,12 +96,14 @@ public class MarkerDetailFragment extends Fragment {
                 String lat = listLocationObj.getLat();
                 String lng = listLocationObj.getLng();
 
-                Uri gmmIntentUri = Uri.parse("geo:"+lat+","+lng);
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                if (mapIntent.resolveActivity(mapLocatorActivity.getPackageManager()) != null) {
-                    startActivity(mapIntent);
-                }
+                String label = listLocationObj.getName();
+                String uriBegin = "geo:" + lat + "," + lng;
+                String query = lat + "," + lng + "(" + label + ")";
+                String encodedQuery = Uri.encode(query);
+                String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
+                Uri uri = Uri.parse(uriString);
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+                startActivity(intent);
             }
         });
     }

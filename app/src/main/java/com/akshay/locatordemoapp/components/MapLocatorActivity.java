@@ -67,7 +67,7 @@ public class MapLocatorActivity extends AppCompatActivity {
     }
 
     /**
-     * Method to ask for permission
+     * Method to show permission dialog
      * */
     private void GetThePermission(){
 
@@ -90,7 +90,8 @@ public class MapLocatorActivity extends AppCompatActivity {
     }
 
     /**
-     * This is the method to replace current fragment with new fragment.
+     * This is the method to replace current fragment with new fragment
+     * and shares the dat between them.
      * @param fromFragment Current Fragment.
      * @param bundle Bundle contain Parcelable object.
      */

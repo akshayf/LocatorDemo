@@ -3,18 +3,20 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.gms.maps.MapView android:id="@+id/map_view"
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_margin="5dp"
         android:layout_height="match_parent" />
 
     <LinearLayout
         android:id="@+id/button_layout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
+        android:background="@drawable/unselected_button"
         android:layout_margin="5dp"
         android:orientation="horizontal">
 
@@ -23,6 +25,7 @@
             android:layout_width="wrap_content"
             android:background="@drawable/button_selector"
             android:layout_height="wrap_content"
+            android:padding="2dp"
             android:text="@string/all_locations" />
 
         <Button
@@ -30,6 +33,7 @@
             android:layout_width="wrap_content"
             android:background="@drawable/button_selector"
             android:layout_height="wrap_content"
+            android:padding="2dp"
             android:text="@string/atm_locations" />
 
         <Button
@@ -37,6 +41,7 @@
             android:layout_width="wrap_content"
             android:background="@drawable/button_selector"
             android:layout_height="wrap_content"
+            android:padding="2dp"
             android:text="@string/branches" />
 
     </LinearLayout>
